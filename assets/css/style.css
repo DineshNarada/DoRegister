@@ -90,19 +90,73 @@
 }
 
 /* Progress bar styling */
-.progress {
-    height: 8px;
-    background: #e0e0e0;
-    border-radius: 4px;
-    margin-bottom: 16px;
-    overflow: hidden;
+.aur-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
 }
 
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #4caf50, #66bb6a);
-    width: 0%;
+.aur-progress:before {
+    background: #e2e8f0;
+    content: "";
+    right: 30px;
+    z-index: 0;
+    height: 2px;
+    left: 30px;
+    position: absolute;
+    top: 20px;
+}
+
+.aur-progress-line {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+    width: 0;
     transition: width 0.3s ease;
+}
+
+.aur-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    background: white;
+    padding: 0 10px;
+}
+
+.aur-step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.aur-step.active .aur-step-number {
+    background: #007cba;
+    color: white;
+}
+
+.aur-step-label {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
+.aur-step.active .aur-step-label {
+    color: #007cba;
+    font-weight: 600;
 }
 
 /* Profile image styling */
@@ -214,12 +268,17 @@
         padding: 8px 10px;
     }
 
-    .progress {
-        height: 6px;
-        margin-bottom: 12px;
+    .aur-progress {
+        margin-bottom: 16px;
     }
 
-    .progress-bar {
-        height: 100%;
+    .aur-step-number {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .aur-step-label {
+        font-size: 11px;
     }
 }

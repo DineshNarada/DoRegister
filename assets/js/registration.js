@@ -108,7 +108,9 @@
             $steps.hide();
             $form.find('.step[data-step="'+n+'"]').show();
             var pct = Math.round((n-1)/(total-1)*100);
-            $form.find('.progress-bar').css('width', pct + '%');
+            $form.find('.aur-progress-line').css('width', 'calc(' + pct + '% - 60px)');
+            $form.find('.aur-step').removeClass('active');
+            $form.find('.aur-step[data-step="' + n + '"]').addClass('active');
             state.currentStep = n;
             saveState(state);
         }
