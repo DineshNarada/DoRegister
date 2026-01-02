@@ -154,9 +154,9 @@
     text-align: center;
 }
 
-.aur-step.active .aur-step-label {
-    color: #007cba;
-    font-weight: 600;
+.aur-step.completed .aur-step-number {
+    background: #28a745;
+    color: white;
 }
 
 /* Summary styling for review section */
