@@ -111,8 +111,33 @@
             $form.find('.aur-progress-line').css('width', 'calc(' + pct + '% - 60px)');
             $form.find('.aur-step').removeClass('active');
             $form.find('.aur-step[data-step="' + n + '"]').addClass('active');
+            if (n === total) {
+                populateSummary();
+            }
             state.currentStep = n;
             saveState(state);
+        }
+
+        function populateSummary(){
+            var data = collectData($form);
+            var html = '';
+            html += '<p><strong>Full Name:</strong> ' + (data.full_name || '') + '</p>';
+            html += '<p><strong>Email:</strong> ' + (data.email || '') + '</p>';
+            html += '<p><strong>Phone:</strong> ' + (data.phone || '') + '</p>';
+            html += '<p><strong>Country:</strong> ' + (data.country || '') + '</p>';
+            html += '<p><strong>City:</strong> ' + (data.city || '') + '</p>';
+            html += '<p><strong>Gender:</strong> ' + (data.gender || '') + '</p>';
+            html += '<p><strong>Date of Birth:</strong> ' + (data.dob || '') + '</p>';
+            if (data.interests && Array.isArray(data.interests)) {
+                html += '<p><strong>Interests:</strong> ' + data.interests.join(', ') + '</p>';
+            }
+            if (data.photo_id) {
+                var imgSrc = $form.find('.photo-preview').attr('src');
+                if (imgSrc) {
+                    html += '<p><strong>Photo:</strong></p><img src="' + imgSrc + '" style="max-width:200px;" alt="Uploaded Photo">';
+                }
+            }
+            $form.find('.summary').html(html);
         }
 
         // restore values

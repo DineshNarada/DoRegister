@@ -80,6 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="5" style="display:none">
+                <h3>Review & Confirm</h3>
                 <div class="summary"></div>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="submit" class="submit">Submit</button></div>
             </div>
