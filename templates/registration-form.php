@@ -57,7 +57,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="2" style="display:none">
-                <label>Phone*<input type="text" name="phone" required></label>
                 <label>Country*
                     <div class="country-dropdown">
                         <input type="text" id="country-input" placeholder="Select Country" autocomplete="off">
@@ -65,8 +64,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <ul id="country-list" style="display:none;">
                             <?php
                             require_once dirname(__DIR__) . '/assets/countries.php';
-                            foreach ($countries as $country) {
-                                echo '<li class="country-item">' . esc_html($country) . '</li>';
+                            foreach ($countries as $country => $code) {
+                                echo '<li class="country-item" data-code="' . esc_attr($code) . '">' . esc_html($country) . '</li>';
                             }
                             ?>
                         </ul>
@@ -75,6 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </label>
                 <div class="error" data-for="country"></div>
                 <label>City<input type="text" name="city"></label>
+                <label>Phone*<input type="text" name="phone" required></label>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>
             </div>
 
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('country-input');
     const list = document.getElementById('country-list');
     const hidden = document.getElementById('country-hidden');
+    const countries = <?php echo json_encode(array_keys($countries)); ?>;
 
     input.addEventListener('focus', () => {
         list.style.display = 'block';
@@ -127,10 +128,21 @@ document.addEventListener('DOMContentLoaded', function() {
         list.style.display = 'block';
     });
 
+    input.addEventListener('blur', function() {
+        if (!countries.includes(this.value)) {
+            this.value = '';
+            hidden.value = '';
+        }
+    });
+
     list.addEventListener('click', function(e) {
         if (e.target.classList.contains('country-item')) {
             input.value = e.target.textContent;
             hidden.value = e.target.textContent;
+            const code = e.target.getAttribute('data-code');
+            const phoneInput = document.querySelector('input[name="phone"]');
+            phoneInput.value = code + ' ';
+            phoneInput.focus();
             list.style.display = 'none';
         }
     });
