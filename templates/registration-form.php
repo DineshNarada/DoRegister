@@ -7,35 +7,40 @@ if ( ! defined( 'ABSPATH' ) ) {
     <form id="doregister-form" class="doregister-form" method="post" enctype="multipart/form-data">
         <?php echo wp_nonce_field( 'doregister_register', 'doregister_register_nonce', true, false ); ?>
 
-<div class="aur-progress">
-					<div class="aur-progress-line" style="width: 0%"></div>
-					
-			<div class="aur-step active" data-step="1">
-				<div class="aur-step-number">1</div>
-				<div class="aur-step-label">Basic Info</div>
-			</div>
-		
-			<div class="aur-step " data-step="2">
-				<div class="aur-step-number">2</div>
-				<div class="aur-step-label">Contact</div>
-			</div>
-		
-			<div class="aur-step " data-step="3">
-				<div class="aur-step-number">3</div>
-				<div class="aur-step-label">Personal</div>
-			</div>
-		
-			<div class="aur-step " data-step="4">
-				<div class="aur-step-number">4</div>
-				<div class="aur-step-label">Photo</div>
-			</div>
-		
-			<div class="aur-step " data-step="5">
-				<div class="aur-step-number">5</div>
-				<div class="aur-step-label">Review</div>
-			</div>
-		
-				</div>
+            <div class="card-header">
+                <h2>Create Your Account</h2>
+                <p>Join our community in just a few steps</p>
+            </div>
+
+            <div class="aur-progress">
+                <div class="aur-progress-line" style="width: 0%"></div>
+                        
+                <div class="aur-step active" data-step="1">
+                    <div class="aur-step-number">1</div>
+                    <div class="aur-step-label">Basic Info</div>
+                </div>
+            
+                <div class="aur-step " data-step="2">
+                    <div class="aur-step-number">2</div>
+                    <div class="aur-step-label">Contact</div>
+                </div>
+            
+                <div class="aur-step " data-step="3">
+                    <div class="aur-step-number">3</div>
+                    <div class="aur-step-label">Personal</div>
+                </div>
+            
+                <div class="aur-step " data-step="4">
+                    <div class="aur-step-number">4</div>
+                    <div class="aur-step-label">Photo</div>
+                </div>
+            
+                <div class="aur-step " data-step="5">
+                    <div class="aur-step-number">5</div>
+                    <div class="aur-step-label">Review</div>
+                </div>
+            
+            </div>
             <div class="step" data-step="1">
                 <label>Full Name*<input type="text" name="full_name" required></label>
                 <label>Email*<input type="email" name="email" required></label>

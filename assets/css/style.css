@@ -33,6 +33,12 @@
     line-height: 1.4;
 }
 
+/* Card header styling */
+.doregister-form .card-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
 /* Input fields with modern styling */
 .doregister-form input[type="text"],
 .doregister-form input[type="email"],
