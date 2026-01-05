@@ -75,6 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="error" data-for="country"></div>
                 <label>City<input type="text" name="city"></label>
                 <label>Phone*<input type="text" name="phone" required></label>
+                <div class="error" data-for="phone"></div>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>
             </div>
 
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hidden.value = e.target.textContent;
             const code = e.target.getAttribute('data-code');
             const phoneInput = document.querySelector('input[name="phone"]');
-            phoneInput.value = code + ' ';
+            phoneInput.value = code;
             phoneInput.focus();
             list.style.display = 'none';
         }

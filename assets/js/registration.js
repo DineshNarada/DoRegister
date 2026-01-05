@@ -91,6 +91,14 @@
                 var pass = $step.closest('form').find('[name="password"]').val();
                 if ($el.val() !== pass){ showError(name, 'Passwords do not match'); ok = false; }
             }
+
+            if (name === 'phone' && $el.val()){
+                var phoneDigits = $el.val().replace(/\D/g, '');
+                if (phoneDigits.length < 7 || phoneDigits.length > 15){
+                    showError(name, 'Enter a valid phone number');
+                    ok = false;
+                }
+            }
         });
         return ok;
     }
@@ -296,6 +304,23 @@
             var values = collectData($form);
             state.values = values;
             saveState(state);
+        });
+
+        // Prevent non-numeric input in phone field, allow + only at start
+        $form.on('input', '[name="phone"]', function(){
+            var val = $(this).val();
+            if (val.startsWith('+')) {
+                var afterPlus = val.substring(1).replace(/[^0-9]/g, '');
+                var cleaned = '+' + afterPlus;
+                if (val !== cleaned) {
+                    $(this).val(cleaned);
+                }
+            } else {
+                var cleaned = val.replace(/[^0-9]/g, '');
+                if (val !== cleaned) {
+                    $(this).val(cleaned);
+                }
+            }
         });
     });
 })(jQuery);
