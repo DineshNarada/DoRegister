@@ -33,6 +33,29 @@
     line-height: 1.4;
 }
 
+/* Interests grid for better layout */
+.interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.interests-grid label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+/* Gender options inline */
+.gender-options label {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
 /* Card header styling */
 .doregister-form .card-header {
     text-align: center;
@@ -325,8 +348,210 @@
     color: #666666;
 }
 
-/* Responsive design with media queries */
-@media (max-width: 768px) {
+/* Enhanced styling for step 3 - Personal Information */
+.step[data-step="3"] {
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.step[data-step="3"] p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #495057;
+    margin: 20px 0 15px 0;
+    text-align: center;
+}
+
+/* Gender section styling */
+.gender-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.gender-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #6c757d;
+    position: relative;
+}
+
+.gender-options label:hover {
+    border-color: #007cba;
+    background: #f8f9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 124, 186, 0.15);
+}
+
+.gender-options label input[type="radio"] {
+    display: none;
+}
+
+.gender-options label input[type="radio"]:checked + *::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #007cba;
+    border-radius: 50%;
+    animation: radioCheck 0.3s ease;
+}
+
+@keyframes radioCheck {
+    0% { transform: translateY(-50%) scale(0); }
+    50% { transform: translateY(-50%) scale(1.2); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+.gender-options label:has(input[type="radio"]:checked) {
+    border-color: #007cba;
+    background: #e7f3ff;
+    color: #007cba;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+/* Date of Birth styling */
+.step[data-step="3"] input[type="date"] {
+    background: #ffffff;
+    cursor: text;
+}
+
+.step[data-step="3"] input[type="date"]:focus {
+    background: #ffffff;
+}
+
+.step[data-step="3"] input[type="date"]::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Interests grid enhancement */
+.interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 15px 0 20px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.interests-grid label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #495057;
+    position: relative;
+    font-size: 14px;
+}
+
+.interests-grid label:hover {
+    border-color: #007cba;
+    background: #f8f9ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 124, 186, 0.1);
+}
+
+.interests-grid label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #007cba;
+    cursor: pointer;
+}
+
+.interests-grid label:has(input[type="checkbox"]:checked) {
+    border-color: #007cba;
+    background: #e7f3ff;
+    color: #007cba;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+/* Other interests input styling */
+.step[data-step="3"] input[name="other_interests"] {
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+.step[data-step="3"] input[name="other_interests"]:focus {
+    border-color: #007cba;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+    outline: none;
+}
+
+.step[data-step="3"] input[name="other_interests"]::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* Actions for step 3 */
+.step[data-step="3"] .actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.step[data-step="3"] .actions button {
+    flex: 1;
+    max-width: 150px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.step[data-step="3"] .actions .back {
+    background: #6c757d;
+    color: #ffffff;
+}
+
+.step[data-step="3"] .actions .back:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.step[data-step="3"] .actions .next {
+    background: #007cba;
+    color: #ffffff;
+}
+
+.step[data-step="3"] .actions .next:hover {
+    background: #005a87;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 124, 186, 0.3);
+}
     .doregister-wrap {
         margin: 10px;
         padding: 16px;
@@ -359,7 +584,6 @@
     .doregister-profile img {
         max-width: 100px;
     }
-}
 
 @media (max-width: 480px) {
     .doregister-wrap {

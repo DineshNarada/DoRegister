@@ -80,15 +80,26 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="3" style="display:none">
-                <label>Gender
+                <p>Gender</p>
+                <div class="gender-options">
                     <label><input type="radio" name="gender" value="male"> Male</label>
                     <label><input type="radio" name="gender" value="female"> Female</label>
-                </label>
-                <label>Date of Birth<input type="date" name="dob"></label>
-                <label>Interests</label>
-                <label><input type="checkbox" name="interests[]" value="sports"> Sports</label>
-                <label><input type="checkbox" name="interests[]" value="music"> Music</label>
-                <label><input type="checkbox" name="interests[]" value="reading"> Reading</label>
+                </div>
+                <label>Date of Birth<input type="date" name="dob" placeholder="YYYY-MM-DD"></label>
+                <p>Interests</p>
+                <div class="interests-grid">
+                    <label><input type="checkbox" name="interests[]" value="sports"> Sports</label>
+                    <label><input type="checkbox" name="interests[]" value="music"> Music</label>
+                    <label><input type="checkbox" name="interests[]" value="reading"> Reading</label>
+                    <label><input type="checkbox" name="interests[]" value="travel"> Travel</label>
+                    <label><input type="checkbox" name="interests[]" value="cooking"> Cooking</label>
+                    <label><input type="checkbox" name="interests[]" value="art"> Art</label>
+                    <label><input type="checkbox" name="interests[]" value="technology"> Technology</label>
+                    <label><input type="checkbox" name="interests[]" value="gaming"> Gaming</label>
+                    <label><input type="checkbox" name="interests[]" value="movies"> Movies</label>
+                    <label><input type="checkbox" name="interests[]" value="fitness"> Fitness</label>
+                </div>
+                <label>Other Interests<input type="text" name="other_interests" placeholder="Specify other interests"></label>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>
             </div>
 

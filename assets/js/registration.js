@@ -142,6 +142,9 @@
             if (data.interests && Array.isArray(data.interests)) {
                 html += `<p><strong>Interests:</strong> ${data.interests.join(', ')}</p>`;
             }
+            if (data.other_interests) {
+                html += `<p><strong>Other Interests:</strong> ${data.other_interests}</p>`;
+            }
             if (data.photo_id) {
                 var imgSrc = $form.find('.photo-preview').attr('src');
                 if (imgSrc) {
