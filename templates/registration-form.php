@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 ?>
+
 <div class="doregister-wrap">
     <form id="doregister-form" class="doregister-form" method="post" enctype="multipart/form-data">
         <?php echo wp_nonce_field( 'doregister_register', 'doregister_register_nonce', true, false ); ?>
@@ -57,7 +58,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="step" data-step="2" style="display:none">
                 <label>Phone*<input type="text" name="phone" required></label>
-                <label>Country*<input type="text" name="country" required></label>
+                <label>Country*
+                    <div class="country-dropdown">
+                        <input type="text" id="country-input" placeholder="Select Country" autocomplete="off">
+                        <span class="dropdown-arrow">▼</span>
+                        <ul id="country-list" style="display:none;">
+                            <?php
+                            require_once dirname(__DIR__) . '/assets/countries.php';
+                            foreach ($countries as $country) {
+                                echo '<li class="country-item">' . esc_html($country) . '</li>';
+                            }
+                            ?>
+                        </ul>
+                        <input type="hidden" name="country" id="country-hidden" required>
+                    </div>
+                </label>
+                <div class="error" data-for="country"></div>
                 <label>City<input type="text" name="city"></label>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>
             </div>
@@ -91,3 +107,39 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('country-input');
+    const list = document.getElementById('country-list');
+    const hidden = document.getElementById('country-hidden');
+
+    input.addEventListener('focus', () => {
+        list.style.display = 'block';
+    });
+
+    input.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const items = list.querySelectorAll('.country-item');
+        items.forEach(item => {
+            item.style.display = item.textContent.toLowerCase().includes(filter) ? 'block' : 'none';
+        });
+        list.style.display = 'block';
+    });
+
+    list.addEventListener('click', function(e) {
+        if (e.target.classList.contains('country-item')) {
+            input.value = e.target.textContent;
+            hidden.value = e.target.textContent;
+            list.style.display = 'none';
+        }
+    });
+
+    // Hide list when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !list.contains(e.target)) {
+            list.style.display = 'none';
+        }
+    });
+});
+</script>

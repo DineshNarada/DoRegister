@@ -158,6 +158,9 @@
                     }
                 } else {
                     $el.val(v);
+                    if (k === 'country') {
+                        $('#country-input').val(v);
+                    }
                 }
             });
         }
@@ -247,6 +250,52 @@
                     alert(resp.data && resp.data.message ? resp.data.message : 'Error');
                 }
             }).fail(function(){ alert('Request failed'); });
+        });
+
+        // Country dropdown functionality
+        var $countryInput = $('#country-input');
+        var $countryList = $('#country-list');
+        var $countryHidden = $('#country-hidden');
+        var $countryDropdown = $('.country-dropdown');
+
+        $countryInput.on('click', function(){
+            $countryList.toggle();
+            $countryDropdown.toggleClass('open');
+        });
+
+        $countryInput.on('keyup', function(){
+            var query = $(this).val().toLowerCase();
+            $countryList.find('li').each(function(){
+                var text = $(this).text().toLowerCase();
+                $(this).toggle(text.indexOf(query) !== -1);
+            });
+        });
+
+        $countryList.on('click', 'li', function(e){
+            console.log('li clicked');
+            e.stopPropagation();
+            var value = $(this).text();
+            $countryInput.val(value);
+            $countryHidden.val(value);
+            $countryList[0].style.setProperty('display', 'none', 'important');
+            console.log('after hide', $countryList.css('display'));
+            $countryDropdown.removeClass('open');
+            // Trigger change for saving state
+            $countryHidden.trigger('change');
+        });
+
+        $(document).on('click', function(e){
+            if (!$(e.target).closest('.country-dropdown').length){
+                $countryList.hide();
+                $countryDropdown.removeClass('open');
+            }
+        });
+
+        $countryInput.on('input', function(){
+            clearError('country');
+            var values = collectData($form);
+            state.values = values;
+            saveState(state);
         });
     });
 })(jQuery);
