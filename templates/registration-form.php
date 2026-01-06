@@ -46,12 +46,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p>Basic Information</p>
                 <label>Full Name*<input type="text" name="full_name" required></label>
                 <label>Email*<input type="email" name="email" required></label>
-                <label>Password*<input type="password" name="password" required></label>
+                <label>Password*<div class="password-input-container"><input type="password" name="password" required><button type="button" class="toggle-password" data-target="password" aria-label="Toggle password visibility"><img draggable="false" role="img" class="emoji" alt="👁️" src="https://s.w.org/images/core/emoji/17.0.2/svg/1f441.svg"></button></div></label>
                 <div class="password-strength" data-for="password">
                     <div class="strength-bar"></div>
                     <div class="strength-text"></div>
                 </div>
-                <label>Confirm Password*<input type="password" name="confirm_password" required></label>
+                <label>Confirm Password*<div class="password-input-container"><input type="password" name="confirm_password" required><button type="button" class="toggle-password" data-target="confirm_password" aria-label="Toggle password visibility"><img draggable="false" role="img" class="emoji" alt="👁️" src="https://s.w.org/images/core/emoji/17.0.2/svg/1f441.svg"></button></div></label>
                 <div class="error" data-for="confirm_password"></div>
                 <div class="error" data-for="password"></div>
                 <div class="actions"><button type="button" class="next">Next</button></div>

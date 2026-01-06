@@ -309,6 +309,21 @@
             }).fail(function(){ alert('Request failed'); });
         });
 
+        // Password toggle functionality
+        $form.on('click', '.toggle-password', function(){
+            var $button = $(this);
+            var target = $button.data('target');
+            var $input = $form.find('[name="' + target + '"]');
+            var $img = $button.find('img');
+            var type = $input.attr('type') === 'password' ? 'text' : 'password';
+            $input.attr('type', type);
+            if (type === 'password') {
+                $img.attr('src', 'https://s.w.org/images/core/emoji/17.0.2/svg/1f441.svg').attr('alt', '👁️');
+            } else {
+                $img.attr('src', 'https://s.w.org/images/core/emoji/17.0.2/svg/1f648.svg').attr('alt', '🙈');
+            }
+        });
+
         // Country dropdown functionality
         var $countryInput = $('#country-input');
         var $countryList = $('#country-list');
