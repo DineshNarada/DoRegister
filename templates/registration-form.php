@@ -113,11 +113,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <img draggable="false" role="img" class="emoji" alt="📷" src="https://s.w.org/images/core/emoji/17.0.2/svg/1f4f7.svg">
                         </div>
                         <div class="aur-upload-text">Click to upload or drag &amp; drop<br>JPG, PNG or GIF (max 2MB)</div>
-                    </div>
-                    <input type="hidden" name="photo_id" value="">
-                    <div class="preview">
                         <img class="photo-preview" src="" style="display:none; max-width:200px;" alt="Preview">
                     </div>
+                    <button type="button" class="edit-photo-btn" style="display:none; margin-top: 10px;">Edit Photo</button>
+                    <input type="hidden" name="photo_id" value="">
                     <div class="aur-error-message" data-field="photo"></div>
                 </div>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>

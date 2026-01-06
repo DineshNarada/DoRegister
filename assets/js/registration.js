@@ -334,6 +334,7 @@
     const aurInput = document.getElementById('aur-photo-input');
     const previewImg = document.querySelector('.photo-preview');
     const errorDiv = document.querySelector('.aur-error-message[data-field="photo"]');
+    const editBtn = document.querySelector('.edit-photo-btn');
     const MAX_SIZE = 2 * 1024 * 1024; // 2MB
 
     if (!aurUpload || !aurInput) return;
@@ -348,6 +349,12 @@
             aurInput.click();
         }
     });
+
+    if (editBtn) {
+        editBtn.addEventListener('click', function() {
+            aurInput.click();
+        });
+    }
 
     ['dragenter', 'dragover'].forEach(function(evt) {
         aurUpload.addEventListener(evt, function(e) {
@@ -380,11 +387,25 @@
         if (!file.type.startsWith('image/')) {
             if (errorDiv) errorDiv.textContent = 'Please upload an image file.';
             aurInput.value = '';
+            // Hide preview and show upload UI on error
+            if (previewImg) previewImg.style.display = 'none';
+            const icon = aurUpload.querySelector('.aur-upload-icon');
+            const text = aurUpload.querySelector('.aur-upload-text');
+            if (icon) icon.style.display = '';
+            if (text) text.style.display = '';
+            if (editBtn) editBtn.style.display = 'none';
             return;
         }
         if (file.size > MAX_SIZE) {
             if (errorDiv) errorDiv.textContent = 'File too large (max 2MB).';
             aurInput.value = '';
+            // Hide preview and show upload UI on error
+            if (previewImg) previewImg.style.display = 'none';
+            const icon = aurUpload.querySelector('.aur-upload-icon');
+            const text = aurUpload.querySelector('.aur-upload-text');
+            if (icon) icon.style.display = '';
+            if (text) text.style.display = '';
+            if (editBtn) editBtn.style.display = 'none';
             return;
         }
         const reader = new FileReader();
@@ -392,6 +413,12 @@
             if (previewImg) {
                 previewImg.src = ev.target.result;
                 previewImg.style.display = 'block';
+                // Hide upload icon and text when preview is shown
+                const icon = aurUpload.querySelector('.aur-upload-icon');
+                const text = aurUpload.querySelector('.aur-upload-text');
+                if (icon) icon.style.display = 'none';
+                if (text) text.style.display = 'none';
+                if (editBtn) editBtn.style.display = 'block';
             }
         };
         reader.readAsDataURL(file);

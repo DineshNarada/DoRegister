@@ -436,6 +436,10 @@
   background: var(--background-light);
   transition: var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .aur-file-upload:hover {
@@ -474,6 +478,23 @@
   max-width: 200px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.edit-photo-btn {
+  padding: 8px 16px;
+  background: var(--secondary-color, #6c757d);
+  color: var(--background);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.edit-photo-btn:hover {
+  background: var(--secondary-hover, #5a6268);
+  transform: translateY(-1px);
 }
 
 /* Summary */
