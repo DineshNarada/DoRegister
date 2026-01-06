@@ -43,6 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             
             </div>
             <div class="step" data-step="1">
+                <p>Basic Information</p>
                 <label>Full Name*<input type="text" name="full_name" required></label>
                 <label>Email*<input type="email" name="email" required></label>
                 <label>Password*<input type="password" name="password" required></label>
@@ -57,6 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="2" style="display:none">
+                <p>Contact Information</p>
                 <label>Country*
                     <div class="country-dropdown">
                         <input type="text" id="country-input" placeholder="Select Country" autocomplete="off">
@@ -103,8 +105,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="4" style="display:none">
+                <p>Profile Photo</p>
                 <div class="aur-form-group">
-                    <label>Profile Photo <span class="aur-required">*</span></label>
                     <div class="aur-file-upload" id="aur-file-upload" tabindex="0">
                         <input type="file" name="photo" accept="image/*" id="aur-photo-input" style="display:none">
                         <div class="aur-upload-icon">
@@ -122,7 +124,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="5" style="display:none">
-                <h3>Review & Confirm</h3>
+                <p>Review & Confirm</p>
                 <div class="summary"></div>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="submit" class="submit">Submit</button></div>
             </div>

@@ -275,9 +275,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.step[data-step="3"] {
   padding: 24px;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: var(--radius-large);
@@ -285,7 +282,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.step[data-step="3"] p {
+.step p {
   font-size: 18px;
   font-weight: 600;
   color: var(--text-color);
@@ -398,22 +395,22 @@
   align-self: center;
 }
 
-/* Step 3 actions */
-.step[data-step="3"] .actions {
+/* Step actions */
+.step .actions {
   margin-top: 32px;
   justify-content: space-between;
 }
 
-.step[data-step="3"] .actions button {
+.step .actions button {
   flex: 1;
   max-width: 150px;
 }
 
-.step[data-step="3"] .actions .back {
+.step .actions .back {
   background: var(--secondary-color);
 }
 
-.step[data-step="3"] .actions .back:hover {
+.step .actions .back:hover {
   background: var(--secondary-hover);
   box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
@@ -659,11 +656,11 @@
     font-size: 11px;
   }
 
-  .step[data-step="3"] {
+  .step {
     padding: 20px;
   }
 
-  .step[data-step="3"] p {
+  .step p {
     font-size: 16px;
   }
 }
