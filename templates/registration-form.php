@@ -104,10 +104,20 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
             <div class="step" data-step="4" style="display:none">
-                <label>Upload Photo*<input type="file" name="photo" accept="image/*"></label>
-                <input type="hidden" name="photo_id" value="">
-                <div class="preview">
-                    <img class="photo-preview" src="" style="display:none; max-width:200px;" alt="Preview">
+                <div class="aur-form-group">
+                    <label>Profile Photo <span class="aur-required">*</span></label>
+                    <div class="aur-file-upload" id="aur-file-upload" tabindex="0">
+                        <input type="file" name="photo" accept="image/*" id="aur-photo-input" style="display:none">
+                        <div class="aur-upload-icon">
+                            <img draggable="false" role="img" class="emoji" alt="📷" src="https://s.w.org/images/core/emoji/17.0.2/svg/1f4f7.svg">
+                        </div>
+                        <div class="aur-upload-text">Click to upload or drag &amp; drop<br>JPG, PNG or GIF (max 2MB)</div>
+                    </div>
+                    <input type="hidden" name="photo_id" value="">
+                    <div class="preview">
+                        <img class="photo-preview" src="" style="display:none; max-width:200px;" alt="Preview">
+                    </div>
+                    <div class="aur-error-message" data-field="photo"></div>
                 </div>
                 <div class="actions"><button type="button" class="back">Back</button> <button type="button" class="next">Next</button></div>
             </div>
@@ -119,51 +129,3 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
     </form>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('country-input');
-    const list = document.getElementById('country-list');
-    const hidden = document.getElementById('country-hidden');
-    const countries = <?php echo json_encode(array_keys($countries)); ?>;
-
-    input.addEventListener('focus', () => {
-        list.style.display = 'block';
-    });
-
-    input.addEventListener('input', function() {
-        const filter = this.value.toLowerCase();
-        const items = list.querySelectorAll('.country-item');
-        items.forEach(item => {
-            item.style.display = item.textContent.toLowerCase().includes(filter) ? 'block' : 'none';
-        });
-        list.style.display = 'block';
-    });
-
-    input.addEventListener('blur', function() {
-        if (!countries.includes(this.value)) {
-            this.value = '';
-            hidden.value = '';
-        }
-    });
-
-    list.addEventListener('click', function(e) {
-        if (e.target.classList.contains('country-item')) {
-            input.value = e.target.textContent;
-            hidden.value = e.target.textContent;
-            const code = e.target.getAttribute('data-code');
-            const phoneInput = document.querySelector('input[name="phone"]');
-            phoneInput.value = code;
-            phoneInput.focus();
-            list.style.display = 'none';
-        }
-    });
-
-    // Hide list when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !list.contains(e.target)) {
-            list.style.display = 'none';
-        }
-    });
-});
-</script>

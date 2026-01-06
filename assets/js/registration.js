@@ -327,3 +327,124 @@
         });
     });
 })(jQuery);
+
+// Photo upload: click, keyboard, drag/drop, preview, validation
+(function() {
+    const aurUpload = document.getElementById('aur-file-upload');
+    const aurInput = document.getElementById('aur-photo-input');
+    const previewImg = document.querySelector('.photo-preview');
+    const errorDiv = document.querySelector('.aur-error-message[data-field="photo"]');
+    const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+
+    if (!aurUpload || !aurInput) return;
+
+    aurUpload.addEventListener('click', function() {
+        aurInput.click();
+    });
+
+    aurUpload.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            aurInput.click();
+        }
+    });
+
+    ['dragenter', 'dragover'].forEach(function(evt) {
+        aurUpload.addEventListener(evt, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            aurUpload.classList.add('dragover');
+        });
+    });
+
+    ['dragleave', 'dragend', 'drop'].forEach(function(evt) {
+        aurUpload.addEventListener(evt, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            aurUpload.classList.remove('dragover');
+        });
+    });
+
+    aurUpload.addEventListener('drop', function(e) {
+        const file = (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) || null;
+        handleFile(file);
+    });
+
+    aurInput.addEventListener('change', function(e) {
+        handleFile(e.target.files && e.target.files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file) return;
+        if (errorDiv) errorDiv.textContent = '';
+        if (!file.type.startsWith('image/')) {
+            if (errorDiv) errorDiv.textContent = 'Please upload an image file.';
+            aurInput.value = '';
+            return;
+        }
+        if (file.size > MAX_SIZE) {
+            if (errorDiv) errorDiv.textContent = 'File too large (max 2MB).';
+            aurInput.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            if (previewImg) {
+                previewImg.src = ev.target.result;
+                previewImg.style.display = 'block';
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+})();
+
+// Country dropdown functionality
+(function() {
+    const input = document.getElementById('country-input');
+    const list = document.getElementById('country-list');
+    const hidden = document.getElementById('country-hidden');
+    const countries = DrAjax.countries;
+
+    if (!input || !list || !hidden || !countries) return;
+
+    input.addEventListener('focus', () => {
+        list.style.display = 'block';
+    });
+
+    input.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const items = list.querySelectorAll('.country-item');
+        items.forEach(item => {
+            item.style.display = item.textContent.toLowerCase().includes(filter) ? 'block' : 'none';
+        });
+        list.style.display = 'block';
+    });
+
+    input.addEventListener('blur', function() {
+        if (!countries.includes(this.value)) {
+            this.value = '';
+            hidden.value = '';
+        }
+    });
+
+    list.addEventListener('click', function(e) {
+        if (e.target.classList.contains('country-item')) {
+            input.value = e.target.textContent;
+            hidden.value = e.target.textContent;
+            const code = e.target.getAttribute('data-code');
+            const phoneInput = document.querySelector('input[name="phone"]');
+            if (phoneInput) {
+                phoneInput.value = code;
+                phoneInput.focus();
+            }
+            list.style.display = 'none';
+        }
+    });
+
+    // Hide list when clicking outside
+    document.addEventListener('click', function(e) {
+        if (input && list && !input.contains(e.target) && !list.contains(e.target)) {
+            list.style.display = 'none';
+        }
+    });
+})();
