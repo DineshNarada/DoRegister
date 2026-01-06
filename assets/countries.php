@@ -1,5 +1,5 @@
 <?php
-$countries = array(
+return array(
     "Afghanistan" => "+93",
     "Albania" => "+355",
     "Algeria" => "+213",
@@ -240,4 +240,3 @@ $countries = array(
     "Zambia" => "+260",
     "Zimbabwe" => "+263"
 );
-?>

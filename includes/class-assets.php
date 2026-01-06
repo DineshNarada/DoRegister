@@ -22,7 +22,7 @@ class Assets {
         wp_enqueue_script( 'doregister-login', $url . 'assets/js/login.js', [ 'jquery' ], '1.0', true );
 
         // Load countries for JS
-        require_once plugin_dir_path( $this->file ) . 'assets/countries.php';
+        $countries = include plugin_dir_path( $this->file ) . 'assets/countries.php';
 
         wp_localize_script( 'doregister-registration', 'DrAjax', [
             'ajax_url'     => admin_url( 'admin-ajax.php' ),

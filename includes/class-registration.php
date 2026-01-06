@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Registration {
     public static function render_shortcode() {
         $file = plugin_dir_path( Plugin::$file ) . 'templates/registration-form.php';
+        $countries = include plugin_dir_path( Plugin::$file ) . 'assets/countries.php';
         ob_start();
         include $file;
         return ob_get_clean();

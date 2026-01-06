@@ -39,7 +39,7 @@
 /* Form container */
 .doregister-form {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -335,25 +335,6 @@
   box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
 }
 
-.gender-options label:has(input[type="radio"]:checked)::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  animation: radioCheck 0.3s ease;
-}
-
-@keyframes radioCheck {
-  0% { transform: translateY(-50%) scale(0); }
-  50% { transform: translateY(-50%) scale(1.2); }
-  100% { transform: translateY(-50%) scale(1); }
-}
-
 /* Interests grid */
 .interests-grid {
   display: grid;
@@ -389,10 +370,18 @@
 }
 
 .interests-grid label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary-color);
-  cursor: pointer;
+  display: none;
+}
+
+.interests-grid label:has(input[type="checkbox"]:checked)::before {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 .interests-grid label:has(input[type="checkbox"]:checked) {
