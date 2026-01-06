@@ -115,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="aur-upload-text">Click to upload or drag &amp; drop<br>JPG, PNG or GIF (max 2MB)</div>
                         <img class="photo-preview" src="" style="display:none; max-width:200px;" alt="Preview">
                     </div>
-                    <button type="button" class="edit-photo-btn" style="display:none; margin-top: 10px;">Edit Photo</button>
+                    <button type="button" class="edit-photo-btn" style="display:none; margin-top: 10px;">Change Photo</button>
                     <input type="hidden" name="photo_id" value="">
                     <div class="aur-error-message" data-field="photo"></div>
                 </div>
@@ -125,7 +125,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="step" data-step="5" style="display:none">
                 <p>Review & Confirm</p>
                 <div class="summary"></div>
-                <div class="actions"><button type="button" class="back">Back</button> <button type="submit" class="submit">Submit</button></div>
+                <div class="actions"> <button type="submit" class="submit">Submit Registration</button></div>
             </div>
     </form>
 </div>

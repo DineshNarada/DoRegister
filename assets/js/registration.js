@@ -132,25 +132,66 @@
         function populateSummary(){
             var data = collectData($form);
             var html = '';
-            html += `<p><strong>Full Name:</strong> ${data.full_name || ''}</p>`;
-            html += `<p><strong>Email:</strong> ${data.email || ''}</p>`;
-            html += `<p><strong>Phone:</strong> ${data.phone || ''}</p>`;
-            html += `<p><strong>Country:</strong> ${data.country || ''}</p>`;
-            html += `<p><strong>City:</strong> ${data.city || ''}</p>`;
-            html += `<p><strong>Gender:</strong> ${data.gender || ''}</p>`;
-            html += `<p><strong>Date of Birth:</strong> ${data.dob || ''}</p>`;
-            if (data.interests && Array.isArray(data.interests)) {
-                html += `<p><strong>Interests:</strong> ${data.interests.join(', ')}</p>`;
+
+            // Step 1: Basic Info
+            html += '<div class="summary-section" data-step="1">';
+            html += '<div class="summary-header">';
+            html += '<div class="summary-title"><span class="summary-icon">👤</span><h3>Basic Info</h3></div>';
+            html += '<button type="button" class="edit-btn" data-step="1" title="Edit Basic Info"><span class="edit-icon">✏️</span>Edit</button>';
+            html += '</div>';
+            html += '<div class="summary-fields">';
+            html += '<div class="summary-field"><label>Full Name:</label><span>' + (data.full_name || '<em>Not provided</em>') + '</span></div>';
+            html += '<div class="summary-field"><label>Email:</label><span>' + (data.email || '<em>Not provided</em>') + '</span></div>';
+            html += '</div></div>';
+
+            // Step 2: Contact
+            html += '<div class="summary-section" data-step="2">';
+            html += '<div class="summary-header">';
+            html += '<div class="summary-title"><span class="summary-icon">📞</span><h3>Contact</h3></div>';
+            html += '<button type="button" class="edit-btn" data-step="2" title="Edit Contact Info"><span class="edit-icon">✏️</span>Edit</button>';
+            html += '</div>';
+            html += '<div class="summary-fields">';
+            html += '<div class="summary-field"><label>Country:</label><span>' + (data.country || '<em>Not provided</em>') + '</span></div>';
+            html += '<div class="summary-field"><label>City:</label><span>' + (data.city || '<em>Not provided</em>') + '</span></div>';
+            html += '<div class="summary-field"><label>Phone:</label><span>' + (data.phone || '<em>Not provided</em>') + '</span></div>';
+            html += '</div></div>';
+
+            // Step 3: Personal
+            html += '<div class="summary-section" data-step="3">';
+            html += '<div class="summary-header">';
+            html += '<div class="summary-title"><span class="summary-icon">🎯</span><h3>Personal</h3></div>';
+            html += '<button type="button" class="edit-btn" data-step="3" title="Edit Personal Info"><span class="edit-icon">✏️</span>Edit</button>';
+            html += '</div>';
+            html += '<div class="summary-fields">';
+            html += '<div class="summary-field"><label>Gender:</label><span>' + (data.gender || '<em>Not provided</em>') + '</span></div>';
+            html += '<div class="summary-field"><label>Date of Birth:</label><span>' + (data.dob || '<em>Not provided</em>') + '</span></div>';
+            if (data.interests && Array.isArray(data.interests) && data.interests.length > 0) {
+                html += '<div class="summary-field"><label>Interests:</label><span>' + data.interests.join(', ') + '</span></div>';
+            } else {
+                html += '<div class="summary-field"><label>Interests:</label><span><em>None selected</em></span></div>';
             }
             if (data.other_interests) {
-                html += `<p><strong>Other Interests:</strong> ${data.other_interests}</p>`;
+                html += '<div class="summary-field"><label>Other Interests:</label><span>' + data.other_interests + '</span></div>';
             }
+            html += '</div></div>';
+
+            // Step 4: Photo
+            html += '<div class="summary-section" data-step="4">';
+            html += '<div class="summary-header">';
+            html += '<div class="summary-title"><span class="summary-icon">📷</span><h3>Photo</h3></div>';
+            html += '<button type="button" class="edit-btn" data-step="4" title="Edit Photo"><span class="edit-icon">✏️</span>Edit</button>';
+            html += '</div>';
+            html += '<div class="summary-fields">';
             if (data.photo_id) {
                 var imgSrc = $form.find('.photo-preview').attr('src');
                 if (imgSrc) {
-                    html += `<p><strong>Photo:</strong></p><img src="${imgSrc}" style="max-width:200px;" alt="Uploaded Photo">`;
+                    html += '<div class="summary-field photo-field"><label>Photo:</label><div class="photo-summary"><img src="' + imgSrc + '" alt="Uploaded Photo"><div class="photo-status">✓ Uploaded</div></div></div>';
                 }
+            } else {
+                html += '<div class="summary-field photo-field"><label>Photo:</label><div class="photo-summary no-photo"><div class="no-photo-icon">📷</div><div class="no-photo-text">No photo uploaded</div></div></div>';
             }
+            html += '</div></div>';
+
             $form.find('.summary').html(html);
         }
 
@@ -188,6 +229,11 @@
         $form.on('click', '.back', function(){
             var n = Math.max(1, (state.currentStep || 1) - 1);
             showStep(n);
+        });
+
+        $form.on('click', '.edit-btn', function(){
+            var step = $(this).data('step');
+            showStep(parseInt(step));
         });
 
         $form.on('change keyup', '[name]', function(e){
