@@ -5,6 +5,11 @@
 
         $form.on('submit', function(e){
             e.preventDefault();
+            var $button = $form.find('button[type="submit"]');
+            var originalText = $button.text();
+            $button.prop('disabled', true).text('Logging in...');
+            $('.login-message').text('').removeClass('error success');
+
             var data = {
                 action: 'doregister_login',
                 nonce: DrAjax.login_nonce,
@@ -14,12 +19,18 @@
 
             $.post(DrAjax.ajax_url, data, function(resp){
                 if (resp.success){
-                    $('.login-message').text(resp.data.message || 'Logged in');
-                    window.location = resp.data.redirect || window.location.href;
+                    $('.login-message').text(resp.data.message || 'Logged in').addClass('success');
+                    setTimeout(function(){
+                        window.location = resp.data.redirect || window.location.href;
+                    }, 1000);
                 } else {
-                    $('.login-message').text(resp.data && resp.data.message ? resp.data.message : 'Login failed');
+                    $('.login-message').text(resp.data && resp.data.message ? resp.data.message : 'Login failed').addClass('error');
                 }
-            }).fail(function(){ $('.login-message').text('Request failed'); });
+            }).fail(function(){
+                $('.login-message').text('Request failed').addClass('error');
+            }).always(function(){
+                $button.prop('disabled', false).text(originalText);
+            });
         });
     });
 })(jQuery);

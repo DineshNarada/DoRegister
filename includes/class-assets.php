@@ -17,6 +17,7 @@ class Assets {
         $url = plugin_dir_url( $this->file );
 
         wp_enqueue_style( 'doregister-style', $url . 'assets/css/style.css', [], '1.0' );
+        wp_enqueue_style( 'doregister-login-style', $url . 'assets/css/login.css', [ 'doregister-style' ], '1.0' );
 
         wp_enqueue_script( 'doregister-registration', $url . 'assets/js/registration.js', [ 'jquery' ], '1.0', true );
         wp_enqueue_script( 'doregister-login', $url . 'assets/js/login.js', [ 'jquery' ], '1.0', true );
