@@ -33,7 +33,10 @@ class Ajax {
             wp_send_json_error( [ 'message' => $result->get_error_message() ], 400 );
         }
 
-        wp_send_json_success( [ 'message' => 'Registration successful', 'user_id' => $result ] );
+        $opts = get_option( 'doregister_options', [] );
+        $redirect = ! empty( $opts['redirect_url'] ) ? $opts['redirect_url'] : '';
+
+        wp_send_json_success( [ 'message' => 'Registration successful', 'user_id' => $result, 'redirect' => $redirect ] );
     }
 
     public function handle_upload() {
