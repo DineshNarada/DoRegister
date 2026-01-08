@@ -41,6 +41,7 @@ class Plugin {
         add_shortcode( 'doregister_form', [ '\\DoRegister\\Registration', 'render_shortcode' ] );
         add_shortcode( 'doregister_login', [ '\\DoRegister\\Login', 'render_shortcode' ] );
         add_shortcode( 'doregister_profile', [ '\\DoRegister\\Profile', 'render_shortcode' ] );
+        add_shortcode( 'doregister_account', [ __CLASS__, 'render_account_shortcode' ] );
     }
 
     public static function register_dashboard_cta() {
@@ -175,5 +176,44 @@ class Plugin {
 
     public static function deactivate() {
         // Deactivation tasks (if any)
+    }
+
+    public static function render_account_shortcode() {
+        if ( ! is_user_logged_in() ) {
+            // Show login and register options
+            $login_content = do_shortcode( '[doregister_login]' );
+            $register_content = do_shortcode( '[doregister_form]' );
+            ob_start();
+            ?>
+            <div class="doregister-account-page">
+                <h2>Account</h2>
+                <div class="doregister-account-tabs">
+                    <button class="doregister-tab active" data-tab="login">Login</button>
+                    <button class="doregister-tab" data-tab="register">Register</button>
+                </div>
+                <div class="doregister-tab-content active" data-tab="login">
+                    <?php echo $login_content; ?>
+                </div>
+                <div class="doregister-tab-content" data-tab="register">
+                    <?php echo $register_content; ?>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        } else {
+            // Show profile and logout options
+            $profile_content = do_shortcode( '[doregister_profile]' );
+            ob_start();
+            ?>
+            <div class="doregister-account-page">
+                <h2>My Account</h2>
+                <?php echo $profile_content; ?>
+                <div class="doregister-account-actions">
+                    <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="doregister-logout">Logout</a>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
     }
 }

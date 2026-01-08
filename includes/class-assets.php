@@ -18,9 +18,11 @@ class Assets {
 
         wp_enqueue_style( 'doregister-style', $url . 'assets/css/style.css', [], '1.0' );
         wp_enqueue_style( 'doregister-login-style', $url . 'assets/css/login.css', [ 'doregister-style' ], '1.0' );
+        wp_enqueue_style( 'doregister-account-style', $url . 'assets/css/account.css', [ 'doregister-style' ], '1.0' );
 
         wp_enqueue_script( 'doregister-registration', $url . 'assets/js/registration.js', [ 'jquery' ], '1.0', true );
         wp_enqueue_script( 'doregister-login', $url . 'assets/js/login.js', [ 'jquery' ], '1.0', true );
+        wp_enqueue_script( 'doregister-account', $url . 'assets/js/account.js', [ 'jquery' ], '1.0', true );
 
         // Load countries for JS
         $countries = include plugin_dir_path( $this->file ) . 'assets/countries.php';

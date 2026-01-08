@@ -20,6 +20,8 @@
             $.post(DrAjax.ajax_url, data, function(resp){
                 if (resp.success){
                     $('.login-message').text(resp.data.message || 'Logged in').addClass('success');
+                    // Trigger custom event for popup handling
+                    $(document).trigger('doregister_login_success', [resp]);
                     setTimeout(function(){
                         window.location = resp.data.redirect || window.location.href;
                     }, 1000);

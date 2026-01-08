@@ -1,6 +1,6 @@
 # DoRegister - Advanced User Registration System
 
-A comprehensive WordPress plugin that provides an advanced multi-step user registration system with login, frontend profile view, and enhanced jQuery-based UX.
+A comprehensive WordPress plugin that provides an advanced multi-step user registration system with login, frontend profile view, unified account page, and enhanced jQuery-based UX.
 
 ## Features
 
@@ -29,6 +29,13 @@ A comprehensive WordPress plugin that provides an advanced multi-step user regis
 - **Profile Photo Display**: Uploaded photos shown in profile
 - **User Meta Display**: All custom fields (phone, country, interests, etc.)
 - **Logout Functionality**: Secure logout with redirect
+
+### 📄 Account Page System
+- **Unified Account Page**: Single page with login/register/profile functionality
+- **Tabbed Interface**: Clean tabs for login and registration options
+- **Dynamic Content**: Content changes based on user login status
+- **Manual Menu Control**: Full control over navigation menu placement
+- **SEO-Friendly**: Dedicated page with proper URL structure
 
 ### 🛠️ Admin Enhancements
 - **Custom Admin Page**: Dedicated user management interface
@@ -61,6 +68,15 @@ A comprehensive WordPress plugin that provides an advanced multi-step user regis
 
 Add these shortcodes to any page or post to display the respective forms:
 
+#### Account Page (Recommended)
+```
+[doregister_account]
+```
+Displays a unified account page with:
+- **For logged-out users**: Tabbed interface with Login and Register options
+- **For logged-in users**: Profile information and logout button
+- **Manual menu control**: Create a page with this shortcode and link it to your navigation menu
+
 #### Registration Form
 ```
 [doregister_form]
@@ -78,6 +94,23 @@ Displays the custom login form.
 [doregister_profile]
 ```
 Displays the user profile (requires user to be logged in).
+
+### Setting Up the Account Page (Recommended Method)
+
+1. **Create a WordPress Page**
+   - Go to **WordPress Admin > Pages > Add New**
+   - Title: "Account" (or "My Account", "Login", etc.)
+   - Add the shortcode: `[doregister_account]`
+   - Publish the page
+
+2. **Add to Navigation Menu**
+   - Go to **Appearance > Menus**
+   - Add your new Account page to the menu
+   - Set the menu item text to "Account" or "My Account"
+   - Assign the menu to your theme's primary navigation location
+   - Save the menu
+
+3. **Result**: Users can now click "Account" in your navigation to access login/register/profile functionality on a dedicated page.
 
 ### Admin Interface
 
@@ -115,10 +148,13 @@ DoRegister/
 │   └── profile-view.php         # Profile view template
 ├── assets/
 │   ├── css/
-│   │   └── style.css            # Plugin styles
+│   │   ├── style.css            # Plugin styles
+│   │   ├── login.css            # Login form styles
+│   │   └── account.css          # Account page styles
 │   └── js/
 │       ├── registration.js      # Registration JavaScript
-│       └── login.js             # Login JavaScript
+│       ├── login.js             # Login JavaScript
+│       └── account.js           # Account page JavaScript
 └── README.md                    # This file
 ```
 
@@ -182,6 +218,14 @@ define('WP_DEBUG_LOG', true);
 ```
 
 ## Changelog
+
+### Version 1.1.0
+- Added unified account page shortcode `[doregister_account]`
+- Implemented manual menu control system
+- Replaced popup modal with dedicated page interface
+- Added tabbed login/register interface
+- Enhanced responsive design for account pages
+- Improved user experience with page-based navigation
 
 ### Version 1.0.0
 - Initial release
