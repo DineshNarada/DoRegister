@@ -62,13 +62,13 @@ class Plugin {
 
     public static function render_dashboard_cta() {
         $admin_link = admin_url( 'users.php?page=doregister-users' );
-        $docs_link = 'https://example.com/docs/doregister';
+        $docs_link = admin_url( 'admin.php?page=doregister-docs' );
         ?>
         <div class="doregister-cta">
             <p style="margin:0 0 12px;">Quick actions to get started with DoRegister.</p>
             <p style="margin:0 0 12px;"><a href="<?php echo esc_url( $admin_link ); ?>" class="button button-primary button-hero">Open DoRegister Users</a>
-            <a href="<?php echo esc_url( $docs_link ); ?>" target="_blank" class="button">Plugin Docs</a></p>
-            <p style="margin:0;font-size:13px;color:#666;">Tip: Use the <code>[doregister_form]</code> shortcode on any page to show the registration form.</p>
+            <a href="<?php echo esc_url( $docs_link ); ?>" class="button">Plugin Docs</a></p>
+            <p style="margin:0;font-size:13px;color:#666;">Tip: Use the <code>[doregister_account]</code> shortcode on any page to show the unified account page with login, register, and profile options.</p>
         </div>
         <?php
     }
@@ -93,12 +93,23 @@ class Plugin {
             'doregister-settings',
             [ __CLASS__, 'render_admin_settings_page' ]
         );
+
+        // Add a Documentation submenu under our top-level DoRegister menu
+        add_submenu_page(
+            'doregister-cta',
+            'DoRegister Documentation',
+            'Documentation',
+            'manage_options',
+            'doregister-docs',
+            [ __CLASS__, 'render_admin_docs_page' ]
+        );
     }
 
     public static function render_admin_cta_page() {
         $users_link = admin_url( 'users.php?page=doregister-users' );
         $settings_link = admin_url( 'admin.php?page=doregister-settings' );
-        $shortcode = '[doregister_form]';
+        $docs_link = admin_url( 'admin.php?page=doregister-docs' );
+        $shortcode = '[doregister_account]';
         ?>
         <div class="wrap">
             <h1>DoRegister</h1>
@@ -106,8 +117,9 @@ class Plugin {
                 <p style="margin:0 0 12px;">Ready to use DoRegister? Quick actions below.</p>
                 <p style="margin:0 0 12px;">
                     <a href="<?php echo esc_url( $users_link ); ?>" class="button button-primary button-hero">Manage DoRegister Users</a>
+                    <a href="<?php echo esc_url( $docs_link ); ?>" class="button">View Documentation</a>
                 </p>
-                <p style="margin:0;font-size:13px;color:#666;">Place the shortcode <code><?php echo esc_html( $shortcode ); ?></code> on any page to show the registration form.</p>
+                <p style="margin:0;font-size:13px;color:#666;">Place the shortcode <code><?php echo esc_html( $shortcode ); ?></code> on any page to show the unified account page with login, register, and profile options.</p>
             </div>
         </div>
         <?php
@@ -165,9 +177,59 @@ class Plugin {
         <?php
     }
 
+    public static function render_admin_docs_page() {
+        $readme_path = plugin_dir_path( self::$file ) . 'README.md';
+        $content = file_exists( $readme_path ) ? file_get_contents( $readme_path ) : 'Documentation not found.';
+        
+        // Split into lines for processing
+        $lines = explode("\n", $content);
+        $html = '';
+        $in_list = false;
+        
+        foreach ($lines as $line) {
+            $line = trim($line);
+            
+            if (preg_match('/^### (.*)$/', $line, $matches)) {
+                if ($in_list) { $html .= '</ul>'; $in_list = false; }
+                $html .= '<h4>' . esc_html($matches[1]) . '</h4>';
+            } elseif (preg_match('/^## (.*)$/', $line, $matches)) {
+                if ($in_list) { $html .= '</ul>'; $in_list = false; }
+                $html .= '<h3>' . esc_html($matches[1]) . '</h3>';
+            } elseif (preg_match('/^# (.*)$/', $line, $matches)) {
+                if ($in_list) { $html .= '</ul>'; $in_list = false; }
+                $html .= '<h2>' . esc_html($matches[1]) . '</h2>';
+            } elseif (preg_match('/^- (.*)$/', $line, $matches)) {
+                if (!$in_list) { $html .= '<ul>'; $in_list = true; }
+                $html .= '<li>' . esc_html($matches[1]) . '</li>';
+            } elseif (empty($line)) {
+                if ($in_list) { $html .= '</ul>'; $in_list = false; }
+                $html .= '<br>';
+            } else {
+                if ($in_list) { $html .= '</ul>'; $in_list = false; }
+                // Replace inline code and bold
+                $line = preg_replace('/`(.*?)`/', '<code>$1</code>', esc_html($line));
+                $line = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $line);
+                $html .= '<p>' . $line . '</p>';
+            }
+        }
+        
+        if ($in_list) { $html .= '</ul>'; }
+        
+        ?>
+        <div class="wrap">
+            <h1>DoRegister Documentation</h1>
+            <div class="doregister-docs">
+                <div class="doregister-docs-content">
+                    <?php echo $html; ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
     public static function enqueue_admin_cta_styles( $hook ) {
-        // Only load on Dashboard, CTA page, or settings page
-        if ( 'index.php' !== $hook && 'toplevel_page_doregister-cta' !== $hook && 'doregister_page_doregister-settings' !== $hook ) {
+        // Only load on Dashboard, CTA page, settings page, or docs page
+        if ( 'index.php' !== $hook && 'toplevel_page_doregister-cta' !== $hook && 'doregister_page_doregister-settings' !== $hook && 'doregister_page_doregister-docs' !== $hook ) {
             return;
         }
 

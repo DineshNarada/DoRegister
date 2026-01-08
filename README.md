@@ -58,23 +58,23 @@ A comprehensive WordPress plugin that provides an advanced multi-step user regis
    - Find "DoRegister - Registration System"
    - Click "Activate"
 
-3. **Configure shortcodes**
-   - Add shortcodes to your pages/posts as needed
+3. **Create an Account Page**
+   - Create a new WordPress page
+   - Add the shortcode `[doregister_account]`
+   - Add the page to your navigation menu
 
 ## Usage
 
-### Shortcodes
-
-Add these shortcodes to any page or post to display the respective forms:
-
-#### Account Page (Recommended)
+### Recommended: Unified Account Page
 ```
 [doregister_account]
 ```
-Displays a unified account page with:
+This is the recommended approach as it provides a complete account management experience:
 - **For logged-out users**: Tabbed interface with Login and Register options
-- **For logged-in users**: Profile information and logout button
-- **Manual menu control**: Create a page with this shortcode and link it to your navigation menu
+- **For logged-in users**: Profile information and logout functionality
+- **Single page solution**: No need for multiple pages
+
+### Individual Components (Advanced Usage)
 
 #### Registration Form
 ```
