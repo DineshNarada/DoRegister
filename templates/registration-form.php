@@ -129,4 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="actions"> <button type="submit" class="submit">Submit Registration</button></div>
             </div>
     </form>
+    <div class="doregister-cross-nav">
+        <p>Already have an account? <a href="#" class="doregister-login-link">Log in</a></p>
+    </div>
 </div>

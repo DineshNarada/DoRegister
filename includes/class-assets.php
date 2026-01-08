@@ -22,6 +22,10 @@ class Assets {
 
         wp_enqueue_script( 'doregister-registration', $url . 'assets/js/registration.js', [ 'jquery' ], '1.0', true );
         wp_enqueue_script( 'doregister-login', $url . 'assets/js/login.js', [ 'jquery' ], '1.0', true );
+        wp_localize_script( 'doregister-login', 'DrAjax', [
+            'ajax_url'     => admin_url( 'admin-ajax.php' ),
+            'login_nonce'  => wp_create_nonce( 'doregister_login' ),
+        ] );
         wp_enqueue_script( 'doregister-account', $url . 'assets/js/account.js', [ 'jquery' ], '1.0', true );
 
         // Load countries for JS

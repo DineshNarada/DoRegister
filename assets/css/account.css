@@ -428,3 +428,29 @@
         margin-bottom: 5px;
     }
 }
+
+/* Cross-navigation styling for account page */
+.doregister-account-page .doregister-cross-nav {
+    margin-top: 24px;
+    text-align: center;
+    padding: 16px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.doregister-account-page .doregister-cross-nav p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.doregister-account-page .doregister-cross-nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.doregister-account-page .doregister-cross-nav a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}

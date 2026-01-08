@@ -11,4 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <button type="submit">Login</button>
     </form>
     <div class="login-message"></div>
+    <div class="doregister-cross-nav">
+        <p>Don't have an account? <a href="#" class="doregister-register-link">Register</a></p>
+    </div>
 </div>

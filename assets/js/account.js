@@ -13,6 +13,19 @@
             $('.doregister-tab-content[data-tab="' + tab + '"]').addClass('active');
         });
 
+        // Cross-navigation between login and register tabs
+        $(document).on('click', '.doregister-login-link', function(e) {
+            e.preventDefault();
+            // Switch to login tab
+            $('.doregister-tab[data-tab="login"]').click();
+        });
+
+        $(document).on('click', '.doregister-register-link', function(e) {
+            e.preventDefault();
+            // Switch to register tab
+            $('.doregister-tab[data-tab="register"]').click();
+        });
+
         // Handle successful login - redirect to account page or reload
         $(document).on('doregister_login_success', function(event, response) {
             // Login successful, redirect to account page or reload
