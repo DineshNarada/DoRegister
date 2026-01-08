@@ -42,6 +42,10 @@ class Plugin {
         add_shortcode( 'doregister_login', [ '\\DoRegister\\Login', 'render_shortcode' ] );
         add_shortcode( 'doregister_profile', [ '\\DoRegister\\Profile', 'render_shortcode' ] );
         add_shortcode( 'doregister_account', [ __CLASS__, 'render_account_shortcode' ] );
+        // Restrict admin access for non-admin users
+        add_action( 'admin_init', [ __CLASS__, 'restrict_admin_access' ] );
+        add_filter( 'show_admin_bar', [ __CLASS__, 'hide_admin_bar_for_non_admins' ] );
+        add_action( 'wp_before_admin_bar_render', [ __CLASS__, 'remove_admin_bar_items' ] );
     }
 
     public static function register_dashboard_cta() {
@@ -214,6 +218,68 @@ class Plugin {
             </div>
             <?php
             return ob_get_clean();
+        }
+    }
+
+    public static function restrict_admin_access() {
+        // Allow administrators full access
+        if ( current_user_can( 'administrator' ) ) {
+            return;
+        }
+
+        // Get current user
+        $user = wp_get_current_user();
+
+        // Allow access to AJAX requests (needed for our plugin's AJAX functionality)
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            return;
+        }
+
+        // Allow access to admin-ajax.php for our plugin's AJAX calls
+        if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'admin-ajax.php' ) !== false ) {
+            return;
+        }
+
+        // Allow access to profile page for users to edit their own profile
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'profile' ) {
+            return;
+        }
+
+        // Redirect non-admin users away from admin area
+        if ( is_admin() && ! wp_doing_ajax() ) {
+            wp_redirect( home_url() );
+            exit;
+        }
+    }
+
+    public static function hide_admin_bar_for_non_admins( $show_admin_bar ) {
+        // Hide admin bar for non-administrators
+        if ( ! current_user_can( 'administrator' ) ) {
+            return false;
+        }
+        return $show_admin_bar;
+    }
+
+    public static function remove_admin_bar_items() {
+        // Remove admin bar items for non-administrators
+        if ( ! current_user_can( 'administrator' ) ) {
+            global $wp_admin_bar;
+            $wp_admin_bar->remove_menu( 'wp-logo' );
+            $wp_admin_bar->remove_menu( 'site-name' );
+            $wp_admin_bar->remove_menu( 'comments' );
+            $wp_admin_bar->remove_menu( 'new-content' );
+            $wp_admin_bar->remove_menu( 'my-account' );
+            $wp_admin_bar->remove_menu( 'user-info' );
+            $wp_admin_bar->remove_menu( 'edit-profile' );
+            $wp_admin_bar->remove_menu( 'logout' );
+            $wp_admin_bar->remove_menu( 'search' );
+            $wp_admin_bar->remove_menu( 'customize' );
+            $wp_admin_bar->remove_menu( 'updates' );
+            $wp_admin_bar->remove_menu( 'wpseo-menu' ); // Yoast SEO
+            $wp_admin_bar->remove_menu( 'wp-mail-smtp-menu' ); // WP Mail SMTP
+            // Remove any other common admin bar items
+            $wp_admin_bar->remove_menu( 'menu-toggle' );
+            $wp_admin_bar->remove_menu( 'wp-admin-bar-root-default' );
         }
     }
 }

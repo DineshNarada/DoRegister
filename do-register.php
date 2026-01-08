@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: DoRegister - Registration System 
- * Description: A custom WordPress plugin that provides an advanced multi-step user registration system with login, profile view, unified account page, and enhanced UX.
+ * Description: A custom WordPress plugin that provides an advanced multi-step user registration system with login, profile view, unified account page, and enhanced security controls.
  * Version: 1.1.0
  * Author: Dinesh Narada
  * License: GPL2

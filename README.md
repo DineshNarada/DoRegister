@@ -1,6 +1,6 @@
 # DoRegister - Advanced User Registration System
 
-A comprehensive WordPress plugin that provides an advanced multi-step user registration system with login, frontend profile view, unified account page, and enhanced jQuery-based UX.
+A comprehensive WordPress plugin that provides an advanced multi-step user registration system with login, frontend profile view, unified account page, and enhanced security controls.
 
 ## Features
 
@@ -37,12 +37,11 @@ A comprehensive WordPress plugin that provides an advanced multi-step user regis
 - **Manual Menu Control**: Full control over navigation menu placement
 - **SEO-Friendly**: Dedicated page with proper URL structure
 
-### 🛠️ Admin Enhancements
-- **Custom Admin Page**: Dedicated user management interface
-- **Extra Meta Fields**: Display and edit custom user data
-- **Profile Photo Management**: View and manage user photos
-- **User Table**: Overview of all DoRegister users
-
+### �️ Security & Access Control
+- **Frontend-Only Access**: Regular users can register/login from frontend but cannot access admin dashboard
+- **Admin Bar Management**: Admin bar hidden for non-admin users, fully visible for administrators
+- **AJAX Functionality**: All frontend AJAX features work without admin access
+- **Profile Editing**: Users can still edit their profiles through allowed admin pages- **Administrator Access**: Users with administrator role retain full dashboard access
 ### 🎨 User Experience
 - **Password Strength Meter**: Real-time password strength indication
 - **Responsive Design**: Mobile-friendly interface
@@ -112,6 +111,19 @@ Displays the user profile (requires user to be logged in).
 
 3. **Result**: Users can now click "Account" in your navigation to access login/register/profile functionality on a dedicated page.
 
+### Security & Access Control
+
+**User Access Levels:**
+- **Regular Users**: Can register, login, and view/edit their profiles from the frontend only
+- **Administrators**: Retain full access to WordPress dashboard and admin functions
+- **Admin Bar**: Hidden for regular users, visible for administrators
+- **Dashboard Access**: Blocked for non-admin users, full access for administrators
+
+**Allowed Admin Access for Users:**
+- Profile editing page (`/wp-admin/profile.php`)
+- AJAX requests for plugin functionality
+- WordPress AJAX endpoint (`admin-ajax.php`)
+
 ### Admin Interface
 
 Access the admin interface:
@@ -164,6 +176,9 @@ DoRegister/
 - **Input Sanitization**: All user inputs sanitized and validated
 - **File Upload Security**: Strict file type and size validation
 - **CSRF Protection**: Form submissions protected against cross-site request forgery
+- **Admin Access Control**: Non-administrators cannot access /wp-admin dashboard
+- **Admin Bar Visibility**: Admin bar hidden for non-admin users, visible for administrators
+- **AJAX Access**: AJAX functionality remains available for frontend features
 - **WordPress Standards**: Follows all WordPress security best practices
 
 ## Customization
@@ -226,6 +241,9 @@ define('WP_DEBUG_LOG', true);
 - Added tabbed login/register interface
 - Enhanced responsive design for account pages
 - Improved user experience with page-based navigation
+- Added admin access restrictions for non-admin users
+- Implemented admin bar visibility control
+- Enhanced security with frontend-only user access
 
 ### Version 1.0.0
 - Initial release
