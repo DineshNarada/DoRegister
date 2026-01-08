@@ -34,5 +34,12 @@ class Assets {
             'upload_nonce' => wp_create_nonce( 'doregister_upload' ),
             'countries'    => array_keys( $countries ),
         ] );
+
+        wp_localize_script( 'doregister-account', 'doregister_ajax', [
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce'    => wp_create_nonce( 'doregister_update_profile' ),
+            'change_password_nonce' => wp_create_nonce( 'doregister_change_password' ),
+            'logout_redirect_url' => wp_logout_url( wp_login_url() ),
+        ] );
     }
 }

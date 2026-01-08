@@ -12,8 +12,8 @@ class Ajax {
 
         add_action( 'wp_ajax_nopriv_doregister_login', [ $this, 'handle_login' ] );
         add_action( 'wp_ajax_doregister_login', [ $this, 'handle_login' ] );
-        add_action( 'wp_ajax_nopriv_doregister_upload', [ $this, 'handle_upload' ] );
-        add_action( 'wp_ajax_doregister_upload', [ $this, 'handle_upload' ] );
+        add_action( 'wp_ajax_doregister_update_profile', [ $this, 'handle_update_profile' ] );
+        add_action( 'wp_ajax_doregister_change_password', [ $this, 'handle_change_password' ] );
     }
 
     public function handle_register() {
@@ -120,5 +120,115 @@ class Ajax {
         }
 
         wp_send_json_success( [ 'message' => 'Login successful', 'redirect' => home_url() ] );
+    }
+
+    public function handle_update_profile() {
+        if ( ! is_user_logged_in() ) {
+            wp_send_json_error( [ 'message' => 'Not logged in.' ], 403 );
+        }
+
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'doregister_update_profile' ) ) {
+            wp_send_json_error( [ 'message' => 'Invalid nonce.' ], 403 );
+        }
+
+        $user_id = get_current_user_id();
+        $data = isset( $_POST['data'] ) ? (array) $_POST['data'] : [];
+
+        $fields = [ 'phone', 'country', 'city' ];
+        foreach ( $fields as $field ) {
+            if ( isset( $data[$field] ) ) {
+                update_user_meta( $user_id, $field, sanitize_text_field( $data[$field] ) );
+            }
+        }
+
+        // Handle photo upload
+        if ( ! empty( $_FILES['photo'] ) ) {
+            $file = $_FILES['photo'];
+
+            // Basic validation
+            $max = 2 * 1024 * 1024;
+            if ( $file['size'] > $max ) {
+                wp_send_json_error( [ 'message' => 'File too large (max 2MB).' ], 400 );
+            }
+
+            $allowed = [ 'jpg', 'jpeg', 'png', 'gif' ];
+            $ext = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
+            if ( ! in_array( $ext, $allowed, true ) ) {
+                wp_send_json_error( [ 'message' => 'Invalid file type.' ], 400 );
+            }
+
+            if ( ! function_exists( 'wp_handle_upload' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+            }
+            if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+            }
+            if ( ! function_exists( 'wp_insert_attachment' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+            }
+
+            $overrides = [ 'test_form' => false ];
+            $movefile = wp_handle_upload( $file, $overrides );
+
+            if ( isset( $movefile['error'] ) ) {
+                wp_send_json_error( [ 'message' => $movefile['error'] ], 500 );
+            }
+
+            $filename = $movefile['file'];
+            $filetype = wp_check_filetype( basename( $filename ), null );
+
+            $attachment = [
+                'post_mime_type' => $filetype['type'],
+                'post_title'     => sanitize_file_name( basename( $filename ) ),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
+            ];
+
+            $attach_id = wp_insert_attachment( $attachment, $movefile['file'] );
+            if ( is_wp_error( $attach_id ) ) {
+                wp_send_json_error( [ 'message' => $attach_id->get_error_message() ], 500 );
+            }
+
+            $metadata = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
+            wp_update_attachment_metadata( $attach_id, $metadata );
+
+            update_user_meta( $user_id, 'profile_photo_id', $attach_id );
+        }
+
+        wp_send_json_success( [ 'message' => 'Profile updated successfully.' ] );
+    }
+
+    public function handle_change_password() {
+        if ( ! is_user_logged_in() ) {
+            wp_send_json_error( [ 'message' => 'Not logged in.' ], 403 );
+        }
+
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'doregister_change_password' ) ) {
+            wp_send_json_error( [ 'message' => 'Invalid nonce.' ], 403 );
+        }
+
+        $user_id = get_current_user_id();
+        $data = isset( $_POST['data'] ) ? (array) $_POST['data'] : [];
+
+        $current = isset( $data['current_password'] ) ? $data['current_password'] : '';
+        $new = isset( $data['new_password'] ) ? $data['new_password'] : '';
+        $confirm = isset( $data['confirm_password'] ) ? $data['confirm_password'] : '';
+
+        if ( empty( $current ) || empty( $new ) || empty( $confirm ) ) {
+            wp_send_json_error( [ 'message' => 'All fields are required.' ], 400 );
+        }
+
+        if ( $new !== $confirm ) {
+            wp_send_json_error( [ 'message' => 'New passwords do not match.' ], 400 );
+        }
+
+        $user = get_user_by( 'id', $user_id );
+        if ( ! wp_check_password( $current, $user->user_pass, $user_id ) ) {
+            wp_send_json_error( [ 'message' => 'Current password is incorrect.' ], 400 );
+        }
+
+        wp_set_password( $new, $user_id );
+
+        wp_send_json_success( [ 'message' => 'Password changed successfully. Please log in again.' ] );
     }
 }
