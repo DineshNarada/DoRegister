@@ -46,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p>Basic Information</p>
                 <label>Full Name*<input type="text" name="full_name" required></label>
                 <label>Email*<input type="email" name="email" required></label>
+                <div class="error" data-for="email"></div>
                 <label>Password*<div class="password-input-container"><input type="password" name="password" required><button type="button" class="toggle-password" data-target="password" aria-label="Toggle password visibility"><img draggable="false" role="img" class="emoji" alt="👁️" src="https://s.w.org/images/core/emoji/17.0.2/svg/1f441.svg"></button></div></label>
                 <div class="password-strength" data-for="password">
                     <div class="strength-bar"></div>

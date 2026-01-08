@@ -233,7 +233,7 @@
 .step .actions {
   margin-top: 24px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 12px;
 }
 
@@ -456,7 +456,6 @@
 /* Step actions */
 .step .actions {
   margin-top: 32px;
-  justify-content: space-between;
 }
 
 .step .actions button {
@@ -466,6 +465,7 @@
 
 .step .actions .back {
   background: var(--secondary-color);
+  margin-right: auto;
 }
 
 .step .actions .back:hover {

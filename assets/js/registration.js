@@ -386,6 +386,25 @@
                 }
             }
         });
+
+        // Allow only letters and spaces in full name field
+        $form.on('input', '[name="full_name"]', function(){
+            var val = $(this).val();
+            var cleaned = val.replace(/[^a-zA-Z\s]/g, '');
+            if (val !== cleaned) {
+                $(this).val(cleaned);
+            }
+        });
+
+        // Real-time email validation on blur
+        $form.on('blur', '[name="email"]', function(){
+            var $el = $(this);
+            var email = $el.val();
+            clearError('email');
+            if (email && !validateEmail(email)) {
+                showError('email', 'Invalid email address');
+            }
+        });
     });
 })(jQuery);
 
