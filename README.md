@@ -29,6 +29,7 @@ A comprehensive WordPress plugin that provides an advanced multi-step user regis
 - **Profile Photo Display**: Uploaded photos shown in profile
 - **User Meta Display**: All custom fields (phone, country, interests, etc.)
 - **Logout Functionality**: Secure logout with redirect
+- **Subscriber-only Access**: Newly registered users are created with the **subscriber** role and can only access and update their own profile (email, password, profile photo, and meta fields).
 
 ### 📄 Account Page System
 - **Unified Account Page**: Single page with login/register/profile functionality

@@ -57,6 +57,7 @@ class Registration {
             'user_email' => $email,
             'user_pass'  => $password,
             'first_name' => $full_name,
+            'role'       => 'subscriber',
         ];
 
         $user_id = wp_insert_user( $userdata );
@@ -75,6 +76,12 @@ class Registration {
         if ( $photo_id ) {
             update_user_meta( $user_id, 'profile_photo_id', $photo_id );
         }
+
+        /**
+         * Action fired after a successful DoRegister user registration
+         * @param int $user_id
+         */
+        do_action( 'doregister_user_registered', $user_id );
 
         return $user_id;
     }

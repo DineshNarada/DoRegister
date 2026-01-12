@@ -35,6 +35,7 @@ class AdminUserManagement {
             <p>Manage users registered via DoRegister plugin.</p>
             <?php
             $users = get_users( [
+                'role' => 'subscriber',
                 'meta_key' => 'phone', // assuming all DoRegister users have phone meta
                 'meta_compare' => 'EXISTS'
             ] );
