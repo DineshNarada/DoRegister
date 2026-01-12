@@ -208,9 +208,7 @@ class Plugin {
             <div class="doregister-account-page">
                 <h2>My Account</h2>
                 <?php echo $profile_content; ?>
-                <div class="doregister-account-actions">
-                    <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="doregister-logout">Logout</a>
-                </div>
+                
             </div>
             <?php
             return ob_get_clean();
