@@ -165,6 +165,7 @@ DoRegister/
 - **Input Sanitization**: All user inputs sanitized and validated
 - **File Upload Security**: Strict file type and size validation
 - **CSRF Protection**: Form submissions protected against cross-site request forgery
+- **Admin protection**: Administrators and the stored installer account cannot be deleted via the plugin front-end.
 - **WordPress Standards**: Follows all WordPress security best practices
 
 ## Customization

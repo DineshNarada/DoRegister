@@ -112,3 +112,13 @@
 .doregister-message.error { color: #c62828; margin-left: 10px; }
 .button-danger { background: #c62828; color: #fff; border-color: #b71c1c; }
 .button-danger:hover { opacity: 0.95; }
+
+/* Visiting card */
+.doregister-profile-card { background: #fff; border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; margin-bottom: 20px; }
+.doregister-profile-card .dr-pair { margin-bottom: 8px; }
+.doregister-profile-card .dr-photo-small { margin-top:10px; }
+.doregister-profile-card .dr-card-actions { margin-top:12px; }
+.doregister-profile-card .dr-card-actions .button { margin-right:8px; }
+
+/* Hide utility */
+.dr-hidden { display:none; }

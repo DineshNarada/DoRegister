@@ -29,6 +29,35 @@
             setTimeout(function() { el.text(''); }, 5000 );
         }
 
+        // Initialize profile UI state: hide form and delete section until Edit is clicked
+        $('#doregister-profile-form').hide();
+        $('#dr-delete-section').hide();
+        $('#doregister-delete-account').prop('disabled', true);
+        // keep original preview for reset
+        $('#dr-photo-preview').data('original', $('#dr-photo-preview').html());
+
+        // Toggle edit mode
+        $('#doregister-edit-toggle').on('click', function() {
+            $('#dr-profile-card').hide();
+            $('#doregister-profile-form').show();
+            $('#dr-delete-section').show();
+            $('#doregister-delete-account').prop('disabled', false);
+            $('#dr-profile-message').text('');
+        });
+
+        $('#doregister-cancel-profile').on('click', function() {
+            // reset form to initial values loaded from server
+            var form = $('#doregister-profile-form')[0];
+            if ( form ) { form.reset(); }
+            // reset photo preview
+            $('#dr-photo-preview').html( $('#dr-photo-preview').data('original') );
+            $('#doregister-profile-form').hide();
+            $('#dr-delete-section').hide();
+            $('#doregister-delete-account').prop('disabled', true);
+            $('#dr-profile-card').show();
+            $('#dr-profile-message').text('');
+        });
+
         function uploadPhoto(file) {
             var fd = new FormData();
             fd.append('action', 'doregister_upload');
@@ -96,6 +125,16 @@
                         var url = $('#dr-photo-preview img').attr('src');
                         // fetch new thumbnail via AJAX or refresh the page for simplicity
                         setTimeout(function(){ window.location.reload(); }, 800 );
+                    } else {
+                        // reflect name/email changes back on visiting card without reload
+                        $('#dr-profile-card .dr-pair').each(function(){});
+                        // replace card values where applicable
+                        $('#dr-profile-card').find('div:contains("Email:")').html('<strong>Email:</strong> ' + $('<div>').text($('#dr-email').val()).html());
+                        $('#dr-profile-card').find('div:contains("Phone:")').html('<strong>Phone:</strong> ' + $('<div>').text($('#dr-phone').val()).html());
+                        $('#dr-profile-card').find('div:contains("Country:")').html('<strong>Country:</strong> ' + $('<div>').text($('#dr-country').val()).html());
+                        $('#dr-profile-card').find('div:contains("City:")').html('<strong>City:</strong> ' + $('<div>').text($('#dr-city').val()).html());
+                        // hide form and show card
+                        setTimeout(function(){ $('#doregister-profile-form').hide(); $('#dr-delete-section').hide(); $('#dr-profile-card').show(); }, 600 );
                     }
                 } else {
                     showProfileMessage( '#dr-profile-message', res.data.message || 'An error occurred.', true );
