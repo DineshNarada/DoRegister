@@ -106,3 +106,9 @@
         margin: 10px 0;
     }
 }
+
+/* Profile form messaging */
+.doregister-message.success { color: #2e7d32; margin-left: 10px; }
+.doregister-message.error { color: #c62828; margin-left: 10px; }
+.button-danger { background: #c62828; color: #fff; border-color: #b71c1c; }
+.button-danger:hover { opacity: 0.95; }

@@ -94,7 +94,7 @@ Displays the custom login form.
 ```
 [doregister_profile]
 ```
-Displays the user profile (requires user to be logged in).
+Displays the user profile (requires user to be logged in). The profile page now includes a frontend **edit form** and **delete account** flow so subscribers can update email, password, profile photo and other meta fields without using the WP admin.
 
 ### Setting Up the Account Page (Recommended Method)
 
@@ -186,6 +186,8 @@ Customize form HTML by editing templates in the `templates/` directory.
 - `doregister_user_registered` - Fires after successful user registration
 - `doregister_user_logged_in` - Fires after successful login
 - `doregister_photo_uploaded` - Fires after photo upload
+- `doregister_user_updated` - Fires after a successful frontend profile update (receives $user_id)
+- `doregister_user_deleted` - Fires after account deletion via frontend (receives $user_id)
 
 ### Filters
 - `doregister_registration_fields` - Modify registration form fields

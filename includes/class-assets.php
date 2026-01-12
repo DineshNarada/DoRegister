@@ -28,11 +28,13 @@ class Assets {
         $countries = include plugin_dir_path( $this->file ) . 'assets/countries.php';
 
         wp_localize_script( 'doregister-registration', 'DrAjax', [
-            'ajax_url'     => admin_url( 'admin-ajax.php' ),
-            'nonce'        => wp_create_nonce( 'doregister_register' ),
-            'login_nonce'  => wp_create_nonce( 'doregister_login' ),
-            'upload_nonce' => wp_create_nonce( 'doregister_upload' ),
-            'countries'    => array_keys( $countries ),
+            'ajax_url'       => admin_url( 'admin-ajax.php' ),
+            'nonce'          => wp_create_nonce( 'doregister_register' ),
+            'login_nonce'    => wp_create_nonce( 'doregister_login' ),
+            'upload_nonce'   => wp_create_nonce( 'doregister_upload' ),
+            'profile_nonce'  => wp_create_nonce( 'doregister_profile' ),
+            'delete_nonce'   => wp_create_nonce( 'doregister_delete' ),
+            'countries'      => array_keys( $countries ),
         ] );
     }
 }
