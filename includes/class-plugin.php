@@ -59,11 +59,24 @@ class Plugin {
     public static function render_dashboard_cta() {
         $admin_link = admin_url( 'users.php?page=doregister-users' );
         $docs_link = 'https://example.com/docs/doregister';
+
+        // Show installer admin username if set
+        $installer_id = (int) get_option( 'doregister_installer_id', 0 );
+        $installer_html = '';
+        if ( $installer_id ) {
+            $installer_user = get_userdata( $installer_id );
+            if ( $installer_user ) {
+                $name = esc_html( $installer_user->display_name ?: $installer_user->user_login );
+                $email = esc_html( $installer_user->user_email );
+                $installer_html = sprintf( '<p style="margin:8px 0 12px;color:#444">Installer admin: <strong>%s</strong> &lt;%s&gt;</p>', $name, $email );
+            }
+        }
         ?>
         <div class="doregister-cta">
             <p style="margin:0 0 12px;">Quick actions to get started with DoRegister.</p>
             <p style="margin:0 0 12px;"><a href="<?php echo esc_url( $admin_link ); ?>" class="button button-primary button-hero">Open DoRegister Users</a>
             <a href="<?php echo esc_url( $docs_link ); ?>" target="_blank" class="button">Plugin Docs</a></p>
+            <?php echo $installer_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             <p style="margin:0;font-size:13px;color:#666;">Tip: Use the <code>[doregister_form]</code> shortcode on any page to show the registration form.</p>
         </div>
         <?php
@@ -98,6 +111,15 @@ class Plugin {
         ?>
         <div class="wrap">
             <h1>DoRegister</h1>
+            <?php
+            $installer_id = (int) get_option( 'doregister_installer_id', 0 );
+            if ( $installer_id ) {
+                $inst = get_userdata( $installer_id );
+                if ( $inst ) {
+                    echo '<p><strong>Installer admin:</strong> ' . esc_html( $inst->user_login ) . ' (' . esc_html( $inst->user_email ) . ')</p>';
+                }
+            }
+            ?>
             <div class="doregister-cta" style="max-width:800px;">
                 <p style="margin:0 0 12px;">Ready to use DoRegister? Quick actions below.</p>
                 <p style="margin:0 0 12px;">
@@ -171,7 +193,14 @@ class Plugin {
     }
 
     public static function activate() {
-        // Activation tasks (if any)
+        // Store installer (activating user) id if not already set
+        $installer_id = get_option( 'doregister_installer_id', 0 );
+        if ( empty( $installer_id ) ) {
+            $current = get_current_user_id();
+            if ( $current ) {
+                update_option( 'doregister_installer_id', $current, false );
+            }
+        }
     }
 
     public static function deactivate() {

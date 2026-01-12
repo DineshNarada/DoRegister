@@ -12,6 +12,10 @@ class AdminUserManagement {
         add_action( 'edit_user_profile', [ $this, 'show_extra_fields' ] );
         add_action( 'personal_options_update', [ $this, 'save_extra_fields' ] );
         add_action( 'edit_user_profile_update', [ $this, 'save_extra_fields' ] );
+
+        // Protect installer user from role changes and deletion
+        add_action( 'user_profile_update_errors', [ $this, 'prevent_installer_role_change' ], 10, 3 );
+        add_filter( 'user_has_cap', [ $this, 'prevent_installer_deletion' ], 10, 3 );
     }
 
     public function add_menu() {
@@ -119,4 +123,48 @@ class AdminUserManagement {
         $interests = sanitize_text_field( $_POST['interests'] ?? '' );
         update_user_meta( $user_id, 'interests', $interests ? explode( ',', $interests ) : [] );
     }
+
+    /**
+     * Return true if given user ID is the stored installer
+     */
+    protected function is_installer_user( $user_id ) {
+        $installer = (int) get_option( 'doregister_installer_id', 0 );
+        return $installer && (int) $user_id === $installer;
+    }
+
+    /**
+     * Prevent changing the role of the installer user
+     */
+    public function prevent_installer_role_change( \WP_Error $errors, $update, $user ) {
+        if ( ! $update ) {
+            return;
+        }
+
+        if ( $this->is_installer_user( $user->ID ) ) {
+            $current_user = get_userdata( $user->ID );
+            $current_roles = $current_user->roles ?? [];
+            $new_role = isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '';
+
+            if ( $new_role && ! in_array( $new_role, $current_roles, true ) ) {
+                $errors->add( 'installer_protect', 'You cannot change the role of the installer admin.' );
+            }
+        }
+    }
+
+    /**
+     * Prevent deletion of the installer user by denying the delete_user capability
+     */
+    public function prevent_installer_deletion( $allcaps, $caps, $args ) {
+        $cap = $args[0] ?? '';
+        if ( 'delete_user' === $cap ) {
+            $target = isset( $args[2] ) ? (int) $args[2] : 0;
+            if ( $this->is_installer_user( $target ) ) {
+                foreach ( $caps as $c ) {
+                    $allcaps[ $c ] = false;
+                }
+            }
+        }
+        return $allcaps;
+    }
 }
+
